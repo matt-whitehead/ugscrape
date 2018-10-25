@@ -24,3 +24,9 @@ A simple Python library for scraping chords from https://www.ultimate-guitar.com
     * they are explained in the docstrings
   * example.py shows you how to use the library
   * Don't run main.py, import it and run your own script
+  
+## A Note About chromedriver
+* Sometimes chromedriver doesn't like to quit when selenium tells it to (ChordScraper.killDriver). If this happens, try running:
+ * ``killall -9 chromedriver``
+ * ``killall -9 "Google Chrome"``
+* That will only work on a mac/unix-like system. If you're on Windows, you're on your own  ¯\_(ツ)_/¯.
