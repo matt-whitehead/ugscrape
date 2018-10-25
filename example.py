@@ -16,9 +16,9 @@ with open('chord_links.txt', 'r') as f:
         # Otherwise the API will return True and nothing special happens
         if scrape.geturl(v) == False:
             failed.append(v)
-        if scrape.savetext('data/text/song_' + str(i) + '_.txt') == False:
+        if scrape.savetext('data/text/song_' + str(i) + '.txt') == False:
             failed.append(v)
-        if scrape.savejson('data/json/song_' + str(i) + '_.json') == False:
+        if scrape.savejson('data/json/song_' + str(i) + '.json') == False:
             failed.append(v)
 
 # kill the webdriver, otherwise the processes will keep running when the script ends
