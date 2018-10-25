@@ -4,7 +4,7 @@ A simple Python library for scraping chords from https://www.ultimate-guitar.com
 
 ## Requirements
 
-* Python 3.6 or newer (has not been tested older versions, will NOT work with Python 2.x)
+* Python 3.6 or newer (has not been tested on older versions, will NOT work with Python 2.x)
 * selenium
 * chromedriver
 
