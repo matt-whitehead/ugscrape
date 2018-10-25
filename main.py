@@ -73,6 +73,7 @@ class ChordScraper:
         else:
             # Push the metadata and text to an ordered dict and then save it as json
             self.dict = OrderedDict()
+            # Not all songs have metadata
             if self.meta:
                 for i in self.meta:
                     # This stops us from getting random text like "Do you like this song? (yes/no)"
