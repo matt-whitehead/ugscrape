@@ -66,20 +66,21 @@ class ChordScraper:
             True – If we succeeded
             False – If something went wrong
         """
-        if not self.meta or not self.body:
+        if not self.body:
             print('No data to save! Have you called getURL?')
             self.failed = True
             return False
         else:
             # Push the metadata and text to an ordered dict and then save it as json
             self.dict = OrderedDict()
-            for i in self.meta:
-                # This stops us from getting random text like "Do you like this song? (yes/no)"
-                # Which they have stored in the same div class as the metadata
-                if self.meta[0].text.find(': ') == -1:
-                    continue
-                element_list = i.text.split(': ')
-                self.dict[element_list[0]] = element_list[1]
+            if self.meta:
+                for i in self.meta:
+                    # This stops us from getting random text like "Do you like this song? (yes/no)"
+                    # Which they have stored in the same div class as the metadata
+                    if self.meta[0].text.find(': ') == -1:
+                        continue
+                    element_list = i.text.split(': ')
+                    self.dict[element_list[0]] = element_list[1]
             self.dict['text'] = self.body.text
         with open(filename, 'w') as f:
             json.dump(self.dict, f)
@@ -97,14 +98,15 @@ class ChordScraper:
             True – If we succeeded
             False – If something went wrong
         """
-        if not self.meta or not self.body:
+        if not self.body:
             print('No data to save! Have you called getURL?')
             self.failed = True
             return False
         else:
             with open(filename, 'w') as f:
-                for i in self.meta:
-                    f.write(i.text + '\n')
+                if self.meta:
+                    for i in self.meta:
+                        f.write(i.text + '\n')
                 f.write(self.body.text)
                 print('Saved ' + filename)
                 return True
