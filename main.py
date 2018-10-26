@@ -66,8 +66,20 @@ class ChordScraper(WebDriver):
         try:
             self.meta = self.driver.find_elements_by_class_name('_3JgI9')
             self.body = self.driver.find_element_by_class_name('_1YgOS')
+            self.dict = OrderedDict()
+            # Not all songs have meta data
+            if self.meta:
+                for i in self.meta:
+                    # This stops us from getting random text like "Do you like this song? (yes/no)"
+                    # Which they have stored in the same div class as the metadata
+                    if i.text.find(': ') == -1:
+                        continue
+                    element_list = i.text.split(': ')
+                    self.dict[element_list[0]] = element_list[1]
+                self.dict['text'] = self.body.text
             return True
-        except:
+        except Exception as e:
+            print(e)
             print('!!!@@@ FAILURE AT: @@@!!!')
             print(self.url)
             self.failed = True
@@ -89,21 +101,10 @@ class ChordScraper(WebDriver):
             self.failed = True
             return False
         else:
-            # Push the metadata and text to an ordered dict and then save it as json
-            self.dict = OrderedDict()
-            if self.meta:
-                for i in self.meta:
-                    # This stops us from getting random text like "Do you like this song? (yes/no)"
-                    # Which they have stored in the same div class as the metadata
-                    if self.meta[0].text.find(': ') == -1:
-                        continue
-                    element_list = i.text.split(': ')
-                    self.dict[element_list[0]] = element_list[1]
-            self.dict['text'] = self.body.text
-        with open(filename, 'w') as f:
-            json.dump(self.dict, f)
-            print('Saved ' + filename)
-        return True
+            with open(filename, 'w') as f:
+                json.dump(self.dict, f)
+                print('Saved ' + filename)
+            return True
 
     def savetext(self, filename):
         """
@@ -122,9 +123,11 @@ class ChordScraper(WebDriver):
             return False
         else:
             with open(filename, 'w') as f:
-                if self.meta:
-                    for i in self.meta:
-                        f.write(i.text + '\n')
-                f.write(self.body.text)
+                for k,v in self.dict.items():
+                    if k == 'text':
+                        f.write('Text:' + '\n\n')
+                        f.write(v)
+                    else:
+                        f.write(k + ': ' + v + '\n')
                 print('Saved ' + filename)
                 return True
