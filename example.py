@@ -12,7 +12,7 @@ with open('examples/chord_links.txt', 'r') as f:
     # loop through the list of links and call the API
     for i,v in enumerate(links):
         # The if statements are error handlers
-        # If the API fails it will return False which will cause the link to be added to the failed lis
+        # If the API fails it will return False which will cause the link to be added to the failed list
         # Otherwise the API will return True and nothing special happens
         if scrape.geturl(v) == False:
             failed.append(v)
