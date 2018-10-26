@@ -7,7 +7,7 @@ scrape = ChordScraper()
 failed = []
 
 # read in the links from a file
-with open('chord_links.txt', 'r') as f:
+with open('examples/chord_links.txt', 'r') as f:
     links = f.read().splitlines()
     # loop through the list of links and call the API
     for i,v in enumerate(links):
@@ -27,4 +27,4 @@ scrape.killDriver()
 # write a list of failed links to file
 with open('failed_links.txt', 'w') as f:
     for link in failed:
-        f.write(link + '\n')
+        f.write(link)
