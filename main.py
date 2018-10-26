@@ -4,11 +4,11 @@ import os
 from collections import OrderedDict
 import json
 
-
-class ChordScraper:
+class WebDriver:
+    """
+    Base class for the selenium webdriver
+    """
     def __init__(self):
-        """Initialize the class and the webdriver
-        """
         # Assume that the chromedriver file is in the same directory as this file
         driver_path = os.getcwd() + '/chromedriver'
 
@@ -21,13 +21,31 @@ class ChordScraper:
         # We start with this as False, any failures set it to True
         # Can be used as a while loop break condition if something goes wrong
         self.failed = False
-
         # Try to start the webdriver
         try:
             self.driver = webdriver.Chrome(executable_path=driver_path, chrome_options=option)
         except:
             print("Couldn't start the webdriver. Did you place it in the same dir as the API file?")
             self.failed = True
+
+    def closewindow(self):
+        """
+        DO NOT USE. This will break future calls to geturl. Probably will be removed.
+        Closes the current webdriver window. Run this after you're done with a page.
+        """
+        self.driver.close()
+
+    def killDriver(self):
+        """
+        Closes all the windows and quits the webdriver. Run this when you're done with the class instance.
+        If you don't do this when you're finished the chrome processes will keep running even when the script stops.
+        """
+        self.driver.quit()
+
+
+class ChordScraper(WebDriver):
+    def __init__(self):
+        super().__init__()
 
     def geturl(self, url):
         """
@@ -73,7 +91,6 @@ class ChordScraper:
         else:
             # Push the metadata and text to an ordered dict and then save it as json
             self.dict = OrderedDict()
-            # Not all songs have metadata
             if self.meta:
                 for i in self.meta:
                     # This stops us from getting random text like "Do you like this song? (yes/no)"
@@ -111,17 +128,3 @@ class ChordScraper:
                 f.write(self.body.text)
                 print('Saved ' + filename)
                 return True
-
-    def closewindow(self):
-        """
-        DO NOT USE. This will break future calls to geturl. Probably will be removed.
-        Closes the current webdriver window. Run this after you're done with a page.
-        """
-        self.driver.close()
-
-    def killDriver(self):
-        """
-        Closes all the windows and quits the webdriver. Run this when you're done with the class instance.
-        If you don't do this when you're finished the chrome processes will keep running even when the script stops.
-        """
-        self.driver.quit()
