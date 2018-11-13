@@ -16,6 +16,7 @@ with open('examples/chord_links.txt', 'r') as f:
         # Otherwise the API will return True and nothing special happens
         if scrape.geturl(v) == False:
             failed.append(v)
+            continue
         if scrape.savetext('data/text/song_' + str(i) + '.txt') == False:
             failed.append(v)
         if scrape.savejson('data/json/song_' + str(i) + '.json') == False:

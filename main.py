@@ -3,6 +3,7 @@ from selenium import webdriver
 import os
 from collections import OrderedDict
 import json
+import re
 
 class WebDriver:
     """
@@ -46,6 +47,7 @@ class WebDriver:
 class ChordScraper(WebDriver):
     def __init__(self):
         super().__init__()
+        self.span_start = re.compile(r'<span[^>]*>')
 
     def geturl(self, url):
         """
@@ -65,7 +67,9 @@ class ChordScraper(WebDriver):
         # Try to grab the text and metadata
         try:
             self.meta = self.driver.find_elements_by_class_name('_3JgI9')
-            self.body = self.driver.find_element_by_class_name('_1YgOS')
+            self.body = self.driver.find_element_by_class_name('_1YgOS').get_attribute('innerHTML')
+            self.body = self.span_start.sub('[CH]', self.body)
+            self.body = self.body.replace('</span>', '[/CH]')
             self.dict = OrderedDict()
             # Not all songs have meta data
             if self.meta:
@@ -76,7 +80,7 @@ class ChordScraper(WebDriver):
                         continue
                     element_list = i.text.split(': ')
                     self.dict[element_list[0]] = element_list[1]
-                self.dict['text'] = self.body.text
+                self.dict['text'] = self.body
             return True
         except Exception as e:
             print(e)
