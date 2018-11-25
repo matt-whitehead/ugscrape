@@ -12,9 +12,9 @@ A simple Python library for scraping chords from https://www.ultimate-guitar.com
 
 * Clone the repo
 * Install selenium with:
-  * ``pip install selenium``
+  * ``pip install selenium==3.14.1``
 * Or, if you're using anaconda:
-  * ``conda install -c conda-forge selenium``
+  * ``conda install -c conda-forge selenium==3.14.1``
 * Download [chromedriver](https://chromedriver.storage.googleapis.com/index.html?path=2.43/) for your OS and place it in the same directory as main.py
   
  ## Usage
