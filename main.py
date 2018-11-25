@@ -71,6 +71,7 @@ class ChordScraper(WebDriver):
             self.body = self.span_start.sub('[CH]', self.body)
             self.body = self.body.replace('</span>', '[/CH]')
             self.dict = OrderedDict()
+            self.dict['text'] = self.body
             # Not all songs have meta data
             if self.meta:
                 for i in self.meta:
@@ -80,7 +81,6 @@ class ChordScraper(WebDriver):
                         continue
                     element_list = i.text.split(': ')
                     self.dict[element_list[0]] = element_list[1]
-                self.dict['text'] = self.body
             return True
         except Exception as e:
             print(e)
