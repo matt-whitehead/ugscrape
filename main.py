@@ -26,7 +26,7 @@ class WebDriver:
         try:
             self.driver = webdriver.Chrome(executable_path=driver_path, chrome_options=option)
         except:
-            print("Couldn't start the webdriver. Did you place it in the same dir as the API file?")
+            print("Couldn't start the webdriver. Did you place it in the same dir as main.py?")
             self.failed = True
 
     def closewindow(self):
@@ -62,10 +62,10 @@ class ChordScraper(WebDriver):
         """
         # Grab the url from the argument
         self.url = url
-        self.driver.get(url)
 
         # Try to grab the text and metadata
         try:
+            self.driver.get(url)
             self.meta = self.driver.find_elements_by_class_name('_3JgI9')
             self.body = self.driver.find_element_by_class_name('_1YgOS').get_attribute('innerHTML')
             self.body = self.span_start.sub('[CH]', self.body)
