@@ -28,4 +28,4 @@ scrape.killDriver()
 # write a list of failed links to file
 with open('failed_links.txt', 'w') as f:
     for link in failed:
-        f.write(link)
+        f.write(link + '\n')
