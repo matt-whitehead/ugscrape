@@ -16,8 +16,9 @@ class WebDriver:
         # Set the options for the chrome driver
         option = webdriver.ChromeOptions()
         option.add_argument('incognito')
-        option.add_argument('headless')
+        #option.add_argument('headless')
         option.add_argument('no-proxy-server')
+
 
         # We start with this as False, any failures set it to True
         # Can be used as a while loop break condition if something goes wrong
@@ -70,6 +71,8 @@ class ChordScraper(WebDriver):
             self.body = self.driver.find_element_by_class_name('_1YgOS').get_attribute('innerHTML')
             self.body = self.span_start.sub('[CH]', self.body)
             self.body = self.body.replace('</span>', '[/CH]')
+            self.artist = self.driver.find_element_by_xpath('/html/body/div[1]/div/div/div[2]/main/div[2]/div[3]'
+                                                            '/article/section/section/header/span/span/span/a').text
             self.dict = OrderedDict()
             # Not all songs have meta data
             if self.meta:
@@ -80,7 +83,8 @@ class ChordScraper(WebDriver):
                         continue
                     element_list = i.text.split(': ')
                     self.dict[element_list[0]] = element_list[1]
-            self.dict['text'] = self.body
+            self.dict['Artist'] = self.artist
+            self.dict['Text'] = self.body
             return True
         except Exception as e:
             print(e)
