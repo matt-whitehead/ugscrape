@@ -9,3 +9,5 @@ get_failed.py
 iChords.out
 screenshot.png
 .idea
+init.sh
+get_chords_AWS_beta.py
