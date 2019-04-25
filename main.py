@@ -5,6 +5,7 @@ from collections import OrderedDict
 import json
 import re
 
+
 class WebDriver:
     """
     Base class for the selenium webdriver
@@ -16,7 +17,7 @@ class WebDriver:
         # Set the options for the chrome driver
         option = webdriver.ChromeOptions()
         option.add_argument('incognito')
-        #option.add_argument('headless')
+        option.add_argument('headless')
         option.add_argument('no-proxy-server')
 
 
@@ -26,7 +27,8 @@ class WebDriver:
         # Try to start the webdriver
         try:
             self.driver = webdriver.Chrome(executable_path=driver_path, chrome_options=option)
-        except:
+        except Exception as e:
+            print(e)
             print("Couldn't start the webdriver. Did you place it in the same dir as main.py?")
             self.failed = True
 
